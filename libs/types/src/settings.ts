@@ -722,22 +722,23 @@ export interface ProjectSettings {
 /** Default phase model configuration - sensible defaults for each task type */
 export const DEFAULT_PHASE_MODELS: PhaseModelConfig = {
   // Quick tasks - use fast models for speed and cost
-  enhancementModel: { model: 'sonnet' },
-  fileDescriptionModel: { model: 'haiku' },
-  imageDescriptionModel: { model: 'haiku' },
+  // Former "haiku" defaults -> GPT-5.2 Standard. Everything else -> GPT-5.2 High.
+  enhancementModel: { model: 'cursor-gpt-5.2-extra-high' },
+  fileDescriptionModel: { model: 'cursor-gpt-5.2' },
+  imageDescriptionModel: { model: 'cursor-gpt-5.2' },
 
   // Validation - use smart models for accuracy
-  validationModel: { model: 'sonnet' },
+  validationModel: { model: 'cursor-gpt-5.2-high' },
 
   // Generation - use powerful models for quality
-  specGenerationModel: { model: 'opus' },
-  featureGenerationModel: { model: 'sonnet' },
-  backlogPlanningModel: { model: 'sonnet' },
-  projectAnalysisModel: { model: 'sonnet' },
-  suggestionsModel: { model: 'sonnet' },
+  specGenerationModel: { model: 'cursor-gpt-5.2-extra-high' },
+  featureGenerationModel: { model: 'cursor-gpt-5.2-extra-high' },
+  backlogPlanningModel: { model: 'cursor-gpt-5.2-extra-high' },
+  projectAnalysisModel: { model: 'cursor-gpt-5.2-extra-high' },
+  suggestionsModel: { model: 'cursor-gpt-5.2-extra-high' },
 
   // Memory - use fast model for learning extraction (cost-effective)
-  memoryExtractionModel: { model: 'haiku' },
+  memoryExtractionModel: { model: 'cursor-gpt-5.2' },
 };
 
 /** Current version of the global settings schema */

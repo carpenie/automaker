@@ -135,7 +135,7 @@ describe('settings-service.ts', () => {
       const updates: Partial<GlobalSettings> = {
         keyboardShortcuts: {
           board: 'B',
-        },
+        } as any,
       };
 
       const updated = await settingsService.updateGlobalSettings(updates);
@@ -207,6 +207,7 @@ describe('settings-service.ts', () => {
       const customCredentials: Credentials = {
         ...DEFAULT_CREDENTIALS,
         apiKeys: {
+          ...DEFAULT_CREDENTIALS.apiKeys,
           anthropic: 'sk-test-key',
         },
       };
@@ -236,6 +237,7 @@ describe('settings-service.ts', () => {
     it('should create credentials file with updates', async () => {
       const updates: Partial<Credentials> = {
         apiKeys: {
+          ...DEFAULT_CREDENTIALS.apiKeys,
           anthropic: 'sk-test-key',
         },
       };
@@ -255,6 +257,7 @@ describe('settings-service.ts', () => {
       const initial: Credentials = {
         ...DEFAULT_CREDENTIALS,
         apiKeys: {
+          ...DEFAULT_CREDENTIALS.apiKeys,
           anthropic: 'sk-initial',
         },
       };
@@ -263,6 +266,7 @@ describe('settings-service.ts', () => {
 
       const updates: Partial<Credentials> = {
         apiKeys: {
+          ...DEFAULT_CREDENTIALS.apiKeys,
           anthropic: 'sk-updated',
         },
       };
@@ -276,6 +280,7 @@ describe('settings-service.ts', () => {
       const initial: Credentials = {
         ...DEFAULT_CREDENTIALS,
         apiKeys: {
+          ...DEFAULT_CREDENTIALS.apiKeys,
           anthropic: 'sk-anthropic',
         },
       };
@@ -284,6 +289,7 @@ describe('settings-service.ts', () => {
 
       const updates: Partial<Credentials> = {
         apiKeys: {
+          ...DEFAULT_CREDENTIALS.apiKeys,
           anthropic: 'sk-updated-anthropic',
         },
       };
@@ -304,6 +310,7 @@ describe('settings-service.ts', () => {
     it('should mask keys correctly', async () => {
       await settingsService.updateCredentials({
         apiKeys: {
+          ...DEFAULT_CREDENTIALS.apiKeys,
           anthropic: 'sk-ant-api03-1234567890abcdef',
         },
       });
@@ -316,6 +323,7 @@ describe('settings-service.ts', () => {
     it('should handle short keys', async () => {
       await settingsService.updateCredentials({
         apiKeys: {
+          ...DEFAULT_CREDENTIALS.apiKeys,
           anthropic: 'short',
         },
       });
@@ -334,7 +342,7 @@ describe('settings-service.ts', () => {
 
     it('should return true when credentials file exists', async () => {
       await settingsService.updateCredentials({
-        apiKeys: { anthropic: 'test' },
+        apiKeys: { ...DEFAULT_CREDENTIALS.apiKeys, anthropic: 'test' },
       });
       const exists = await settingsService.hasCredentials();
       expect(exists).toBe(true);
@@ -443,7 +451,7 @@ describe('settings-service.ts', () => {
       const updates: Partial<ProjectSettings> = {
         boardBackground: {
           cardOpacity: 0.9,
-        },
+        } as any,
       };
 
       const updated = await settingsService.updateProjectSettings(testProjectDir, updates);
@@ -739,7 +747,9 @@ describe('settings-service.ts', () => {
       expect(settings.phaseModels.enhancementModel).toEqual({ model: 'haiku' });
       expect(settings.phaseModels.validationModel).toEqual({ model: 'opus' });
       // Other fields should use defaults
-      expect(settings.phaseModels.specGenerationModel).toEqual({ model: 'opus' });
+      expect(settings.phaseModels.specGenerationModel).toEqual({
+        model: 'cursor-gpt-5.2-extra-high',
+      });
     });
 
     it('should use default phase models when none are configured', async () => {
@@ -754,9 +764,11 @@ describe('settings-service.ts', () => {
       const settings = await settingsService.getGlobalSettings();
 
       // Should use DEFAULT_PHASE_MODELS
-      expect(settings.phaseModels.enhancementModel).toEqual({ model: 'sonnet' });
-      expect(settings.phaseModels.fileDescriptionModel).toEqual({ model: 'haiku' });
-      expect(settings.phaseModels.specGenerationModel).toEqual({ model: 'opus' });
+      expect(settings.phaseModels.enhancementModel).toEqual({ model: 'cursor-gpt-5.2-extra-high' });
+      expect(settings.phaseModels.fileDescriptionModel).toEqual({ model: 'cursor-gpt-5.2' });
+      expect(settings.phaseModels.specGenerationModel).toEqual({
+        model: 'cursor-gpt-5.2-extra-high',
+      });
     });
 
     it('should deep merge phaseModels on update', async () => {
@@ -764,14 +776,14 @@ describe('settings-service.ts', () => {
       await settingsService.updateGlobalSettings({
         phaseModels: {
           enhancementModel: { model: 'sonnet', thinkingLevel: 'high' },
-        },
+        } as any,
       });
 
       // Update with a different phase model
       await settingsService.updateGlobalSettings({
         phaseModels: {
           specGenerationModel: { model: 'opus', thinkingLevel: 'ultrathink' },
-        },
+        } as any,
       });
 
       const settings = await settingsService.getGlobalSettings();

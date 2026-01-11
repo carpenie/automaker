@@ -17,6 +17,7 @@ export type CursorModelId =
   | 'cursor-gpt-5.2' // GPT-5.2 via Cursor
   | 'cursor-gpt-5.1' // GPT-5.1 via Cursor
   | 'cursor-gpt-5.2-high' // GPT-5.2 High via Cursor
+  | 'cursor-gpt-5.2-extra-high' // GPT-5.2 Extra High via Cursor
   | 'cursor-gpt-5.1-high' // GPT-5.1 High via Cursor
   | 'cursor-gpt-5.1-codex' // GPT-5.1 Codex via Cursor
   | 'cursor-gpt-5.1-codex-high' // GPT-5.1 Codex High via Cursor
@@ -121,6 +122,13 @@ export const CURSOR_MODEL_MAP: Record<CursorModelId, CursorModelConfig> = {
     id: 'cursor-gpt-5.2-high',
     label: 'GPT-5.2 High',
     description: 'OpenAI GPT-5.2 with high compute',
+    hasThinking: false,
+    supportsVision: false,
+  },
+  'cursor-gpt-5.2-extra-high': {
+    id: 'cursor-gpt-5.2-extra-high',
+    label: 'GPT-5.2 Extra High',
+    description: 'OpenAI GPT-5.2 with extra-high compute',
     hasThinking: false,
     supportsVision: false,
   },
@@ -237,6 +245,12 @@ export const CURSOR_MODEL_GROUPS: GroupedModel[] = [
         label: 'High',
         description: 'High compute level',
         badge: 'More tokens',
+      },
+      {
+        id: 'cursor-gpt-5.2-extra-high',
+        label: 'Extra High',
+        description: 'Extra-high compute level',
+        badge: 'Max compute',
       },
     ],
   },
